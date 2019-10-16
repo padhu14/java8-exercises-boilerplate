@@ -37,9 +37,21 @@ public class LambdaExercise {
 		displayCountries();
 	}
 
-	public static void removeCountry(String name) {
+	public static void removeCountry() {
 		countries.removeIf(country -> country.length() > 6);
 		displayCountries();
 	}
 
+	public static void main(String[] args) {
+		System.out.println("======================DISPLAY COUNTRIES=====================");
+		displayCountries();
+		System.out.println("======================DISPLAY COUNTRIES AND CAPTIALS=====================");
+		displayCountryCapitals();
+		System.out.println("======================DISPLAY COUNTRIES DESC ORDER=====================");
+		sortCountriesByName();
+		System.out.println("======================DISPLAY COUNTRIES BY LENGTH=====================");
+		sortCountriesBylength();
+		System.out.println("======================DISPLAY COUNTRIES REMOVED SOME COUNTIRES LENGTH ABOVE 6=====================");
+		removeCountry();
+	}
 }
