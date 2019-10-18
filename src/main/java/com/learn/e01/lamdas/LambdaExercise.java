@@ -9,9 +9,13 @@ import java.util.Map;
 
 public class LambdaExercise {
 
-	static List<String> countries = new ArrayList<>(Arrays.asList("Afghanistan", "Albania", "Algeria", "Andorra",
-			"Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan"));
+	static List<String> countries;
 	static Map<String, String> countryCaptials = new LinkedHashMap<>();
+	
+	static {
+		countries = new ArrayList<>(Arrays.asList("Afghanistan", "Albania", "Algeria", "Andorra",
+				"Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan"));
+	}
 
 	public static void displayCountries() {
 		countries.forEach(System.out::println);

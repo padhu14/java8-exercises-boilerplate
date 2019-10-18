@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class StreamOperationsExercise {
@@ -49,6 +50,10 @@ public class StreamOperationsExercise {
 
 		return players.stream().filter(f -> f.getMatchesPlayed() > 200).collect(Collectors
 				.groupingBy(Player::getCountry, Collectors.mapping(Player::getPlayerName, Collectors.toList())));
+	}
+	
+	public static Player getMaxRunsPlayer(){
+		return null;
 	}
 
 	public static void main(String[] args) {
