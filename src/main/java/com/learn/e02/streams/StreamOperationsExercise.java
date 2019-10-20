@@ -1,10 +1,10 @@
 package com.learn.e02.streams;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class StreamOperationsExercise {
@@ -40,20 +40,29 @@ public class StreamOperationsExercise {
 	}
 
 	public static List<String> getPlayerNamesSorted() {
-		return players.stream()
-				.sorted((o1, o2) -> o1.getCountry().getCountryName().compareTo(o2.getCountry().getCountryName()))
-				.sorted((o1, o2) -> o2.getHighestScore().compareTo(o1.getHighestScore())).map(v -> v.getPlayerName())
+		Comparator<Player> comparator = (o1, o2) -> o1.getCountry().getCountryName().compareTo(o2.getCountry().getCountryName());
+		comparator.thenComparing((o1, o2) -> o2.getMatchesPlayed().compareTo(o1.getMatchesPlayed()));
+		
+		return players.stream().sorted(comparator).map(p -> p.getPlayerName())
 				.collect(Collectors.toList());
 	}
 
-	public static Map<Country, List<String>> getPlayerCountry() {
+	public static Map<String, String> getPlayerCountry() {
 
 		return players.stream().filter(f -> f.getMatchesPlayed() > 200).collect(Collectors
-				.groupingBy(Player::getCountry, Collectors.mapping(Player::getPlayerName, Collectors.toList())));
+				.toMap(Player::getPlayerName, p -> p.getCountry().getCountryName()));
+	}
+
+	public static Player getMaxRunsPlayer() {
+		return players.stream().max((p1, p2) -> p1.getRuns().compareTo(p2.getRuns())).get();
 	}
 	
-	public static Player getMaxRunsPlayer(){
-		return null;
+	public static Player findPlayer(String name, String country) {
+		return players.stream().filter(p -> p.getPlayerName().equalsIgnoreCase(name) && p.getCountry().getCountryName().equalsIgnoreCase(country)).findFirst().orElse(new Player());
+	}
+	
+	public static boolean checkHighScorerByCountry(String country) {
+		return players.stream().filter(p -> p.getCountry().getCountryName().equalsIgnoreCase(country) && p.getRuns() > 10000L).findAny().isPresent();
 	}
 
 	public static void main(String[] args) {
@@ -62,6 +71,9 @@ public class StreamOperationsExercise {
 		// getPlayerNames().forEach(System.out::println);
 		// getAverageRunsByCountry("AUS");
 //		getPlayerNamesSorted().forEach(System.out::println);
-		getPlayerCountry().forEach((k,v) -> System.out.println("Key -> "+k+" Value -> "  +v));
+		getPlayerCountry().forEach((k, v) -> System.out.println("Key -> " + k + " Value -> " + v));
+//		System.out.println(getMaxRunsPlayer());
+//		System.out.println(findPlayer("DDD", "ENG"));
+//		System.out.println(checkHighScorerByCountry("ENG"));
 	}
 }
