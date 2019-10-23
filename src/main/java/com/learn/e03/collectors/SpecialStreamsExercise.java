@@ -8,7 +8,8 @@ import java.util.stream.IntStream;
 public class SpecialStreamsExercise {
 
 	public static LinkedList<Integer> getSquaresOfThree() {
-		return new LinkedList<>(IntStream.range(20, 50).filter(i -> i % 3 == 0).boxed().collect(Collectors.toList()));
+		return new LinkedList<>(
+				IntStream.range(20, 50).filter(i -> i % 3 == 0).boxed().map(p -> p * p).collect(Collectors.toList()));
 
 	}
 
@@ -17,7 +18,7 @@ public class SpecialStreamsExercise {
 	}
 
 	public static void main(String[] args) {
-//		getSquaresOfThree().forEach(System.out::println);
+		getSquaresOfThree().forEach(System.out::println);
 		getMultiplesOfFive().forEach(System.out::println);
 	}
 

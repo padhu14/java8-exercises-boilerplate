@@ -16,9 +16,9 @@ public class DateTimeExercise {
 
 	public DateTimeExercise() {
 		tablets = new ArrayList<>();
-		tablets.add(new Tablet("CROCIN", "APEX", Date.from(Instant.now()), LocalDate.of(2022, 06, 14)));
+		tablets.add(new Tablet("CROCIN", "APEX", Date.from(Instant.now()), LocalDate.of(2019, 06, 14)));
 		tablets.add(new Tablet("ovamin", "FORTEX", new Date(2012, 10, 17), LocalDate.of(2020, 10, 14)));
-		tablets.add(new Tablet("CROCIN2", "APEX", Date.from(Instant.now()), LocalDate.of(2020, 01, 14)));
+		tablets.add(new Tablet("CROCIN2", "APEX", Date.from(Instant.now()), LocalDate.of(2019, 01, 14)));
 	}
 
 	public List<String> getExpiringTables(int months) {
@@ -36,10 +36,18 @@ public class DateTimeExercise {
 				t.getManufactureDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())));
 	}
 
+	public Map<String, List<String>> getSameYearExpiry() {
+		return tablets.stream().filter(tab -> tab.getExpiryDate().getYear() == LocalDate.now().getYear())
+				.collect(Collectors.groupingBy(Tablet::getManufacturer,
+						Collectors.mapping(Tablet::getTabletName, Collectors.toList())));
+	}
+
 	public static void main(String[] args) {
 		DateTimeExercise dateTimeExercise = new DateTimeExercise();
 		// dateTimeExercise.getExpiringTables(10).forEach(System.out::println);
 		// dateTimeExercise.getExpiringTabletsSorted().forEach(System.out::println);
-		dateTimeExercise.getTabletExpiryPeriod().forEach((k, v) -> System.out.println("key -> " + k + " value -> " + v));
+		dateTimeExercise.getTabletExpiryPeriod()
+				.forEach((k, v) -> System.out.println("key -> " + k + " value -> " + v));
+		dateTimeExercise.getSameYearExpiry().forEach((k, v) -> System.out.println("key -> " + k + " value -> " + v));
 	}
 }
